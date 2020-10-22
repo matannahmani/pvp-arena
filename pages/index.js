@@ -29,7 +29,7 @@ const ComingSoon12 = () => {
                   <Link href="/">
                     <img
                       src="/logo.png"
-                      className="img-fluid"
+                      className="img-fluid brand"
                       alt=""
                     />
                   </Link>
