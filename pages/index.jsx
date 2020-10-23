@@ -4,9 +4,50 @@ import { Helmet } from "react-helmet";
 import { ReactSVG } from "react-svg";
 import Countdown from "react-countdown";
 import Renderer from "../components/countdown/Renderer";
-import SubscribeEmail from "../components/newsletter/SubscribeEmail";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const ValidateEmail = (mail)=> {
+ if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail.value))
+  {
+    toast.success('YAY you just subscribed 🦄!', {
+      position:"bottom-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+      return true;
+  }
+  toast.error('Please enter a valid email!', {
+    position:"bottom-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    });
+    return false;
+}
+const post = async () =>{
+  const email = document.getElementById('subemail');
+  if (ValidateEmail(email) === false) return false ; // breaks if email invaild
+  const rawResponse = await fetch(location.origin+'/api/post/sub', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({email: email.value})
+  });
+  const content = await rawResponse.json();
 
+  console.log(content);
+}
 const ComingSoon12 = () => {
+
   return (
     <Fragment>
       <div
@@ -50,7 +91,10 @@ const ComingSoon12 = () => {
                 </div>
                 <div className="cs-12-subscription-wrapper space-mt--50 text-center">
                   {/* subscribe email */}
-                  <SubscribeEmail mailchimpUrl="https://devitems.us11.list-manage.com/subscribe/post?u=6bbb9b6f5827bd842d9640c82&amp;id=05d85f18ef" />
+                  <div className="mc-newsletter-form space-mb--10">
+                    <input id="subemail" type="email" placeholder="Your email here" required/>
+                    <button onClick={ () => post() }>NOTIFY ME</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -107,6 +151,16 @@ const ComingSoon12 = () => {
         </footer>
         {/*====================  End of footer  ====================*/}
       </div>
+            <ToastContainer
+      autoClose={2000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      />
     </Fragment>
   );
 };
