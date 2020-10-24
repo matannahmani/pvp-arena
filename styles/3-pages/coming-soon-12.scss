@@ -34,10 +34,10 @@
 }
 /* content */
 .brand{
-    transform: scale(1.5);
+    transform: scale(1);
 }
 @media only screen and (max-width: 768px){
-    .brand{transform: scale(2);}
+    .brand{transform: scale(1);}
 }
 .cs-12-content {
     &__subtitle {
@@ -91,6 +91,7 @@
     text-shadow: 3px 3px #bd00ff; 
     color: #FAFAFA;
 }
+
 @keyframes shake-text {
     0% { transform: translate3d(0,0,0);}
     50% { transform: translate3d(0,6px,0);}

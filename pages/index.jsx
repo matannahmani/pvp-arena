@@ -1,55 +1,19 @@
 import React, { Fragment } from "react";
 import Link from 'next/link';
-import { Helmet } from "react-helmet";
+import Head from 'next/head'
 import { ReactSVG } from "react-svg";
 import Countdown from "react-countdown";
 import Renderer from "../components/countdown/Renderer";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-const ValidateEmail = (mail)=> {
- if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail.value))
-  {
-    toast.success('YAY you just subscribed 🦄!', {
-      position:"bottom-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      });
-      return true;
-  }
-  toast.error('Please enter a valid email!', {
-    position:"bottom-center",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    });
-    return false;
-}
-const post = async () =>{
-  const email = document.getElementById('subemail');
-  if (ValidateEmail(email) === false) return false ; // breaks if email invaild
-  const rawResponse = await fetch(location.origin+'/api/post/sub', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({email: email.value})
-  });
-  const content = await rawResponse.json();
+import SubscribeEmail from "../components/newsletter/SubscribeEmail";
 
-  console.log(content);
-}
 const ComingSoon12 = () => {
 
   return (
     <Fragment>
+      <Head>
+      <meta name="description" content="PVP ARENA, play win earn."/>
+      <title>PVP ARENA</title>
+      </Head>
       <div
         className="cs-12-page-wrapper h-100 bg-img d-flex flex-column justify-content-between"
         style={{
@@ -85,16 +49,16 @@ const ComingSoon12 = () => {
                 {/* countdown */}
                 <div className="cs-12-countdown space-mt--50">
                   <Countdown
-                    date={new Date("Novemember 01, 2020")}
+                    date={new Date("Novemember 10, 2020")}
                     renderer={Renderer}
                   />
                 </div>
                 <div className="cs-12-subscription-wrapper space-mt--50 text-center">
+                  <div className="cs-12-subscription-wrapper space-mt--50 text-center">
                   {/* subscribe email */}
-                  <div className="mc-newsletter-form space-mb--10">
-                    <input id="subemail" type="email" placeholder="Your email here" required/>
-                    <button onClick={ () => post() }>NOTIFY ME</button>
-                  </div>
+                  
+                  <SubscribeEmail mailchimpUrl="https://pvparena.us2.list-manage.com/subscribe/post?u=9f59987dcf861e712d841ab7e&amp;id=92714c21d4" />
+                </div>
                 </div>
               </div>
             </div>
@@ -151,16 +115,6 @@ const ComingSoon12 = () => {
         </footer>
         {/*====================  End of footer  ====================*/}
       </div>
-            <ToastContainer
-      autoClose={2000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      />
     </Fragment>
   );
 };
